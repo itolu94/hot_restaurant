@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en-us">
+    <meta charset="UTF-8">
+    <title>Hot Restaurant</title>
+    <link href="https://fonts.googleapis.com/css?family=Ravi+Prakash" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Geckle's Stir Fry</h1>
+    <img src="http://i1.kym-cdn.com/entries/icons/original/000/020/219/fireshit.jpg" alt="FLAMES" id="flames">
+    <h2>The Best Stir Fry Ever</h2>
+    <p id="welcome">Current Reservations and Waiting List</p>
+    <br>
+    <button id="reservation"><a href="http://localhost:5112/reservation">Make Reservation</a></button>
+    <button id="home"><a href="http://localhost:5112/">Home</a></button>
+    <br>
+    <br>
+    <div id="current">
+        <div id="currentHeader">Current Reservations</div>
+        <ol id="currentReservations">
+            <!-- 				<li id="res1"></li>
+				<li id="res2"></li>
+				<li id="res3"></li>
+				<li id="res4"></li>
+				<li id="res5"></li> -->
+        </ol>
+    </div>
+    <br>
+    <div id="waiting">
+        <div id="waitingHeader">Waiting List</div>
+        <!-- 				<ol id="waitingReservations">
+					<li id="wait1"></li>
+					<li id="wait2"></li>
+					<li id="wait3"></li>
+					<li id="wait4"></li>
+					<li id="wait5"></li>
+				</ol> -->
+    </div>
+    <br>
+    <br>
+    </div>
+    <a href="/api/tables" class="API">API Table Link</a> | <a href="/api/waitlist" class="API">API Wait List</a>
+    </div>
+    <a href="http://localhost:5112/reservation">Make your reservation</a>
+</body>
+<script type='text/javascript'>
+$.get('/api').done(function(result, err) {
+    // ol for current reservation
+    var reservation = $('<ol>');
+
+    // ol for waitlist
+    var waitList = $('<ol>');
+
+    for (var i = 0; i < result[0].Reservations.length; i++) {
+        var list = $('<li>');
+        list.append(result[0].Reservations[i].name);
+        reservation.append(list);
+    }
+
+    for (var i = 0; i < result[0].WaitList.length; i++) {
+        var list2 = $('<li>');
+        list2.append(result[0].WaitList[i].name);
+        waitList.append(list2);
+    }
+    // adds to reservation table
+    $('#current').append(reservation);
+
+    // adds to wait list table
+    $('#waiting').append(waitList);
+})
+</script>
+<style>
+body {
+    background-color: #FFC300;
+}
+
+h1,
+h2,
+#welcome,
+button,
+#currentHeader,
+#waitingHeader,
+li,
+#bottomLinks {
+    font-family: 'Ravi Prakash', cursive;
+    text-align: center;
+    font-size: 75px;
+    color: #C70039;
+    margin: 0px;
+    padding: 0px;
+}
+
+h2 {
+    font-size: 50px;
+}
+
+#flames {
+    margin: auto;
+    display: block;
+    height: 120px;
+}
+
+#welcome {
+    font-size: 30px;
+}
+
+
+/*hover animations from http://ianlunn.github.io/Hover/  */
+
+@-webkit-keyframes hvr-buzz {
+    50% {
+        -webkit-transform: translateX(3px) rotate(2deg);
+        transform: translateX(3px) rotate(2deg);
+    }
+    100% {
+        -webkit-transform: translateX(-3px) rotate(-2deg);
+        transform: translateX(-3px) rotate(-2deg);
+    }
+}
+
+@keyframes hvr-buzz {
+    50% {
+        -webkit-transform: translateX(3px) rotate(2deg);
+        transform: translateX(3px) rotate(2deg);
+    }
+    100% {
+        -webkit-transform: translateX(-3px) rotate(-2deg);
+        transform: translateX(-3px) rotate(-2deg);
+    }
+}
+
+h1 {
+    -webkit-animation-name: hvr-buzz;
+    animation-name: hvr-buzz;
+    -webkit-animation-duration: 0.15s;
+    animation-duration: 0.15s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes hvr-pulse {
+    25% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    75% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+}
+
+@keyframes hvr-pulse {
+    25% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    75% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+}
+
+button {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+}
+
+button:hover,
+button:focus,
+button:active {
+    -webkit-animation-name: hvr-pulse;
+    animation-name: hvr-pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+
+button {
+    height: 50px;
+    font-size: 30px;
+    padding: 3px;
+    color: #FFC300;
+    background-color: #C70039;
+    margin: auto;
+    display: block;
+}
+
+#currentHeader,
+#waitingHeader {
+    font-size: 45px;
+    text-align: left;
+    padding-left: 100px;
+}
+
+li {
+    font-size: 30px;
+    text-align: left;
+    margin-left: 100px;
+}
+
+#current,
+#waiting {
+    border: 4px solid #C70039;
+    padding: 5px;
+}
+
+#bottomLinks {
+    font-size: 15px;
+}
+
+a {
+    color: black;
+    size: 100px;
+}
+</style>
+
+</html>
